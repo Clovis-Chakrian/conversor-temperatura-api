@@ -1,5 +1,13 @@
-FROM openjdk:22
+#
+# Build stage
+#
+FROM maven:3.9-eclipse-temurin-22-alpine AS build
 COPY . .
-RUN ./mvnw clean install -DskipTests
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","target/celsiusfareihnheit-0.0.1-SNAPSHOT.jar"]
+RUN mvn clean package -DskipTests
+
+#
+# Package stage
+#
+FROM eclipse-temurin:22-jdk-alpine
+COPY --from=build /target/*.jar app.jar
+ENTRYPOINT ["java","-jar","app.jar"]
