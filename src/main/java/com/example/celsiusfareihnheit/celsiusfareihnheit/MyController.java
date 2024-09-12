@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class MyController {
 
 
-    @GetMapping("/celsius")
+    @GetMapping("/fahrenheitParaCelsius")
     public double calculaCelsius(@RequestParam double valorFarei) {
         double resultado = ((valorFarei - 32) * 5) / 9;
 
         return resultado;
     }
 
-    @GetMapping("/farei")
+    @GetMapping("/celsiusParaFahrenheit")
     public double calculaFareihnheit(@RequestParam double valorCelsius) {
         double resultado = ((valorCelsius * 9) + (5 * 32)) / 5;
 
