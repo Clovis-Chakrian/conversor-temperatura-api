@@ -13,6 +13,10 @@ on:
   release:
     types: [published]
 
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: clovischakrian/temp-app
+
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -27,15 +31,6 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Verificar se DOCKER_USERNAME está configurado
-        run: |
-          if [ -z "${{ secrets.DOCKER_USERNAME }}" ]; then
-            echo "DOCKER_USERNAME não configurado!"
-            exit 1
-          else
-            echo "DOCKER_USERNAME configurado corretamente."
-          fi
-
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
         with:
@@ -46,7 +41,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
-          images: clovischakrian/temp-app
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
         id: push
